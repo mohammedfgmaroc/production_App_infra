@@ -1,0 +1,720 @@
+{% extends 'Dashboard.html' %}
+
+{% block title %}
+    
+{% endblock %}
+
+{% block content %}
+    
+    <!-- Your Data Visualization content here -->
+    <style>
+
+        
+        .outer-headercontainer {
+            display: flex; /* Use flexbox to arrange containers horizontally */
+            margin: 0 auto; /* Center the outer container horizontally */
+            padding: 0px;
+            flex-direction: column; /* Stack contents vertically */
+            align-items: center; /* Center items horizontally */
+            justify-content: center; /* Center items vertically */
+        }
+        .outer-container {
+            display: flex; /* Use flexbox to arrange containers horizontally */
+            margin: 0 auto; /* Center the outer container horizontally */
+            padding: 0px;
+            flex-direction: row;
+            flex-wrap: wrap;
+            
+            
+        }
+
+        .messages .error {
+            color: red;
+            font-weight: bold;
+        }
+        .messages .success {
+            color: rgb(9, 184, 21);
+            font-weight: bold;
+        }
+
+        .inner-container {
+            border: 1px solid #ffffff;
+            margin: 10px;
+            flex: 1; /* Distribute available space equally among the containers */
+        }
+        body {
+          font-family: Arial, sans-serif;
+          background-color: #f7f7f7;
+        }
+        .scrollable-container {
+            height: 600px; /* Adjust the height as needed */
+            max-width: 650px;
+            overflow-y: auto; /* Add vertical scrollbar when content exceeds the height */
+            overflow-x: auto;
+            border: 1px solid #ccc; /* Optional: Add a border for visual clarity */
+        }
+        .horizontal-scroll-container {
+            height: 600px; /* Adjust the height as needed */
+            max-width: 1330px;
+            overflow-x: auto; /* Enable horizontal scrolling */
+            overflow-x: auto;
+            white-space: nowrap; /* Prevent wrapping of content */
+            background-color: #f0f0f0;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            margin: 10px;
+            position: relative;
+        }
+        .container {
+          margin: 0 auto;
+          padding: 20px;
+          width: 100%;
+          background-color: #ffffff;
+          border-radius: 10px;
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+          position: relative;
+          
+        }
+        
+        
+        
+      
+        .form-row {
+          display: flex;
+          justify-content: space-between;
+          align-items: flex-start;
+          flex-wrap: wrap;
+          margin-bottom: 15px;
+        }
+      
+        .form-col {
+          flex-basis: calc(50% - 5px);
+          margin-bottom: 15px;
+        }
+      
+        .input-text,
+        select {
+          width: 100%;
+          padding: 10px;
+          border: 1px solid #ccc;
+          border-radius: 5px;
+          font-size: 16px;
+          margin-bottom: 24px;
+        }
+      
+        label {
+          display: block;
+          font-weight: bold;
+          margin-bottom: 5px;
+          color: #000000;
+        }
+      
+        .submit-btn {
+          margin-top: 33px;
+          margin-left: 50px;
+          background-color: #5750b9;
+          color: #ffffff;
+          padding: 5px 30px;
+          border: none;
+          border-radius: 5px;
+          font-size: 18px;
+          cursor: pointer;
+          transition: background-color 0.3s ease;
+        }
+        .submit-btn1 {
+          margin-bottom: 10px;
+          margin-right: 10px;
+          background-color: #007bff;
+          color: #ffffff;
+          padding: 10px 30px;
+          border: none;
+          border-radius: 5px;
+          font-size: 18px;
+          cursor: pointer;
+          transition: background-color 0.3s ease;
+          position: absolute;
+          bottom: 0;
+          right: 0;
+        }
+      
+        .submit-btn:hover {
+          background-color: #0056b3;
+        }
+    
+        .custom-table thead tr:nth-child(1) {
+            border-top: 2px solid #000000;
+            border-bottom: 2px solid #000000;
+            color: #000000; /* Change this to your desired color */
+            font-size: 15px; /* Change to your desired font size */
+            font-weight: bold; /* Apply bold font weight */
+            text-align: center;
+
+        }
+        .custom-table .table{
+            width: 90%;
+            border-bottom: 2px solid #000000; /* Horizontal borders */
+            border-left: 2px solid #000000; /* Remove left border */
+            border-right: 2px solid #000000; /* Vertical borders */
+            background-color: #a2a2a2;
+        }
+        .custom-table th{
+            border-bottom: 2px solid #000000; /* Horizontal borders */
+            border-left: 2px solid #000000; /* Remove left border */
+            border-right: 2px solid #000000; /* Vertical borders */
+            background-color: #a2a2a2;
+        }
+        .custom-table td {
+            border-bottom: 2px solid #000000; /* Horizontal borders */
+            border-left: 2px solid #000000; /* Remove left border */
+            border-right: 2px solid #000000; /* Vertical borders */
+        }
+        .custom-table tbody tr:nth-child(2) th:nth-child(1) {
+            border-bottom: none;
+            border-left: none;
+            background-color: #ffffff;
+        }
+        .custom-table tbody tr:nth-child(2) td:nth-child(4) {
+            border-bottom: none;
+        }
+        .custom-table tbody tr:nth-child(2) td:nth-child(7) {
+            border-right: none;
+            border-bottom: none;
+        }
+        .custom-table tbody tr:nth-child(1) {
+            color: #000000; /* Change this to your desired color */
+            font-weight: bold; /* Apply bold font weight */
+            text-align: center;
+        }
+        /* Apply a specific color to the text within the specific cell */
+        .custom-table tbody tr:nth-child(2) td:nth-child(2) {
+            color: #3e47e7; /* Change this to your desired color */
+            font-size: 15px; /* Change to your desired font size */
+            font-weight: bold; /* Apply bold font weight */
+            text-align: center;
+        }
+        .custom-table tbody tr:nth-child(2) td:nth-child(3) {
+            color: #45b116; /* Change this to your desired color */
+            font-size: 15px; /* Change to your desired font size */
+            font-weight: bold; /* Apply bold font weight */
+            text-align: center;
+        }
+        .custom-table tbody tr:nth-child(2) td:nth-child(5) {
+            color: #eea110; /* Change this to your desired color */
+            font-size: 15px; /* Change to your desired font size */
+            font-weight: bold; /* Apply bold font weight */
+            text-align: center;
+        }
+        .custom-table tbody tr:nth-child(2) td:nth-child(6) {
+            color: #ff0000; /* Change this to your desired color */
+            font-size: 15px; /* Change to your desired font size */
+            font-weight: bold; /* Apply bold font weight */
+            text-align: center;
+        }
+        .custom-table thead tr:nth-child(1) th:nth-child(4) {
+            background-color: #45b116;
+        }
+        .custom-table tbody tr:nth-child(1) td:nth-child(4) {
+            background-color: #45b116;
+        }
+        .custom-table thead tr:nth-child(1) th:nth-child(7) {
+            background-color: #ff0000;
+        }
+        .custom-table tbody tr:nth-child(1) td:nth-child(7) {
+            background-color: #ff0000;
+        }
+
+        .costum {
+            border-collapse: collapse;
+            width: 90%;
+            border: 1px solid #000000;
+            
+            
+        }
+
+        .costum th{
+            border: 2px solid #000000;
+            padding: 8px;
+            text-align: center;
+            color: #000000;
+            position: sticky;
+            top: 0;
+            z-index: 1;
+        } 
+        .costum td {
+            border: 2px solid #000000;
+            padding: 8px;
+            text-align: center;
+            color: #000000;
+            font-size: 15px; /* Change to your desired font size */
+            font-weight: bold; /* Apply bold font weight */
+        }
+
+        .costum th {
+            background-color: #a2a2a2;
+        }
+
+        .costum tbody tr:nth-child(even) {
+            background-color: #f2f2f2;
+            
+        }
+
+        .costum tbody tr:hover {
+            background-color: #e0e0e0;
+        }
+        .filter-message {
+            font-size: 18px;
+            font-weight: bold;
+            color: #000000;
+            text-align: center;
+            margin-bottom: 20px; /* Add some spacing below the paragraph */
+        }
+        .inner-header-container {
+            width: 80%;
+            height: 150px;
+            display: flex;
+            justify-content: center; /* Center horizontally */
+            align-items: center; /* Center vertically */
+            background-color: #e0e0e0;
+        }
+        #form1 {
+            width: 600px;
+        }
+        
+        
+        button[name="print_button"] {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 16px;
+            display: inline-flex;
+            align-items: center; /* Center icon vertically */
+            margin-bottom: 25px;
+            border-radius: 5px;
+        }
+
+        /* Style the print icon inside the button */
+        button[name="print_button"] .fas {
+            margin-right: 8px; /* Add space between icon and text */
+        }
+        /* Loading overlay styles */
+        .loading-overlay {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            background-color: rgba(39, 39, 39, 0.7);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000; /* Make sure it's above other elements */
+        }
+        .loading-spinner {
+            border: 10px solid rgba(0, 0, 0, 0.3);
+            border-top: 10px solid #ffffff;
+            border-radius: 50%;
+            width: 100px;
+            height: 100px;
+            animation: spin 2s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .loading-text {
+            color: white;
+            margin-top: 10px;
+            margin-left: 10px;
+            font-weight: bold;
+            font-size: 20px;
+        }
+        h2{
+            margin-left: 100px;
+            margin-top: 30px; /* Marge supérieure */
+            margin-bottom: 20px; /* Marge inférieure */
+        }
+        .download-form {
+            display: flex;
+            align-items: center;
+            
+        }
+      </style>
+    
+    <div class="outer-headercontainer">
+        <div class="inner-header-container">
+            <form id="form1" method="get" enctype="multipart/form-data">
+                {% csrf_token %}
+                
+                <div class="form-row">
+                    <div class="form-col">
+                        <label for="year">Séléctionnez un fichier</label>
+                        <input type="text" id="file" name="selected_filename" list="files" class="input-text" placeholder="Noms des Fichiers" autocomplete="off">
+                        <datalist id="files">
+                            {% for file in files %}
+                                <option value="{{ file }}">
+                            {% endfor %}
+                        </datalist>
+                    </div>
+                    <div class="form-col">
+                        <input type="submit" value="Choisir" class="submit-btn">
+                    </div>
+                </div>
+            </form>
+
+            <form method="post">
+                {% csrf_token %}
+                {% if filename and filtre %}
+                <button type="submit" name="print_button"><i class="fas fa-print"></i> Imprimer</button>
+                {% endif %}
+                
+            </form>
+        </div>
+    </div>
+
+    <div class="outer-container">
+               
+        <div class="inner-container">
+            <h2>Filtre</h2>
+        <!-- Content for the second container -->
+            <div class="container scrollable-container">
+                
+                <form id="form2" method="get" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="form-row">
+                        <div class="form-col">
+                            <label for="province-select">Choisissez la DPETL:</label>
+                            <input type="text" id="province-select" name="province" list="provinces" class="input-text" placeholder="DPETL" autocomplete="off">
+                            <datalist id="provinces">
+                                {% for province in provinces %}
+                                    <option value="{{ province }}">
+                                {% endfor %}
+                            </datalist>
+
+                            <label for="road-select">Choisissez la route:</label>
+                            <input type="text" id="road-select" name="road" list="roads" class="input-text" placeholder="Nom de la route" autocomplete="off">
+                            <datalist id="roads">
+                                {% for route in routes %}
+                                    <option value="{{ route }}">
+                                {% endfor %}
+                            </datalist>
+
+                            <label for="category">voie (sens voie express) :</label>
+                            <select id="category" name="category_filter" class="input-text">
+                                <option value="" disabled selected>sens voie express</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                            </select>
+                        </div>
+                    </div>
+                </form>
+            
+                <form id="form3" method="get" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="form-row">
+                        <div class="form-col">
+                            <label for="input1">PKD : </label>
+                            <input type="text" id="input1" name="start_range" class="input-text" title="De {{pkd_min}} Jusqu'au {{pkd_max}}" autocomplete="off">
+                        </div>
+                        <div class="form-col">
+                            <label for="input2">PKF : </label>
+                            <input type="text" id="input2" name="end_range" class="input-text" title="De {{pkf_min}} Jusqu'au {{pkf_max}}" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-col">
+                            <input type="submit" value="Appliquer" class="submit-btn1">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="inner-container">
+            <h2>Diagramme circulaire</h2>
+            <!-- Content for the third container -->
+            <div class="container scrollable-container">
+                
+                            {% if plot_svg %}
+                            {{ plot_svg|safe }}
+                            {% else %}
+                                <p class="filter-message">Sélectionnez un fichier pour avoir votre graphe</p>
+                            {% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="outer-container">
+
+        <div class="inner-container">
+            <h2>Disposition de données concernant la route</h2>
+            <!-- Content for the first container -->
+                <div class="container scrollable-container">
+                    
+                    <table class="costum">
+                        <thead>
+                            <tr>
+                                <th>HIST</th>
+                                <th>REVET</th>
+                                <th>PKD</th>
+                                <th>PKF</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for group in grouped_historical_data %}
+                            <tr>
+                                {% if group.hist != group.hist %}
+                                    <td></td>
+                                {% else %}
+                                <td>{{ group.hist }}</td>
+                                {% endif %}
+                                <td>{{ group.revet }}</td>
+                                <td>{{ group.first_pkd }}</td>
+                                <td>{{ group.last_pkf }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>                                     
+                </div> 
+        </div>
+
+            <div class="inner-container">
+                <h2>Statistiques sur le fichier filtré</h2>
+                <!-- Content for the first container -->
+                    <div class="container scrollable-container">
+                        
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="bg-light p-3">
+                                    <table  class="table custom-table">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">Catégories</th>
+                                                <th scope="col">A</th>
+                                                <th scope="col">B</th>
+                                                <th scope="col">A+B</th>
+                                                <th scope="col">C</th>
+                                                <th scope="col">D</th>
+                                                <th scope="col">C+D</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <th scope="row">ISU</th>
+                                                
+                                                <td>{{ category_percentage_data.A|floatformat:"1" }}%</td>
+                                                <td>{{ category_percentage_data.B|floatformat:"1" }}%</td>
+                                                <td>{{ category_percentage_data.S1|floatformat:"1" }}%</td>
+                                                <td>{{ category_percentage_data.C|floatformat:"1" }}%</td>
+                                                <td>{{ category_percentage_data.D|floatformat:"1" }}%</td>
+                                                <td>{{ category_percentage_data.S2|floatformat:"1" }}%</td>
+                                                
+                                            </tr>
+                                            <tr>
+                                                <th scope="row"></th>
+                                                <td>Bon</td>
+                                                <td>Moyen</td>
+                                                <td></td>
+                                                <td>Mauvaise</td>
+                                                <td>Très Mauvaise</td>
+                                                <td></td>        
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="bg-light p-3">
+                                    <table  class="costum">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">Province</th>
+                                                <th scope="col">Route</th>
+                                                <th scope="col">Sens voie</th>
+                                                <th scope="col">PKD</th>
+                                                <th scope="col">PKF</th>
+                                                <th scope="col">Longueur RV</th>
+                                                <th scope="col">Longueur totale</th>
+                                                <th scope="col">Larg_CH moyen</th>
+                                                <th scope="col">TMJA moyen</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                            
+
+                                                <td>{{ selected_province }}</td>
+                                                <td>{{ selected_road }}</td>
+                                                <td>{{ selected_category }}</td>
+                                                <td>{{ start_range }}</td>
+                                                <td>{{ end_range }}</td>
+                                                <td>{{ longueur_rv }}</td>
+                                                <td>{{ longueur_totale }}</td>
+                                                <td>{{ larg_moy|floatformat:"1" }}</td>
+                                                <td>{{ tmja_moy|floatformat:"1" }}</td>
+                                                
+                                                
+                                            </tr>
+                                        </tbody>
+                                    </table>
+        
+                                </div>
+                            </div>
+                        </div>
+                    </div> 
+                </div>
+
+    </div>
+    <div class="outer-container">
+
+        
+            <h2> Fichier filtré</h2>
+    </div>
+    <div class="outer-container">
+            <!-- Content for the first container -->
+                <div class="horizontal-scroll-container">
+                    
+                    <table  class="costum">
+                        <thead>
+                            <tr>
+                                <th>DRETL</th>
+                                <th>DPETL</th>
+                                <th>Categorie</th>
+                                <th>Num_Route</th>
+                                <th>pkd</th>
+                                <th>pkf</th>
+                                <th>voie (sens voie express)</th>
+                                <th>long rv</th>
+                                <th>longueur</th>
+                                <th>HIST</th>
+                                <th>TRAF_CLS</th>
+                                <th>TMJA</th>
+                                <th>CAT_TMJA</th>
+                                <th>Larg_CH</th>
+                                <th>Larg_ACD</th>
+                                <th>Larg_ACG</th>
+                                <th>NDP</th>
+                                <th>ARR</th>
+                                <th>FIS</th>
+                                <th>DEF</th>
+                                <th>Cls_NdP</th>
+                                <th>Cls_Arr</th>
+                                <th>Cls_Fis</th>
+                                <th>Cls_Def</th>
+                                <th>DAC</th> 
+                                <th>{{ iac_column_name }}</th>
+                                <th>{{ isu_column_name }}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for index, row in filtered_df.iterrows %}
+                                <tr>
+                                    <td>{{ row.DRETL }}</td>
+                                    <td>{{ row.DPETL }}</td>
+                                    <td>{{ row.Categorie }}</td>
+                                    <td>{{ row.Num_Route }}</td>
+                                    <td>{{ row.pkd }}</td>
+                                    <td>{{ row.pkf }}</td>
+                                    <td>{{ row.sens_voie }}</td>
+                                    <td>{{ row.long_rv }}</td>
+                                    <td>{{ row.longueur }}</td>
+                                    <td>{{ row.HIST }}</td>
+                                    <td>{{ row.TRAF_CLS }}</td>
+                                    <td>{{ row.TMJA }}</td>
+                                    <td>{{ row.CAT_TMJA }}</td>
+                                    <td>{{ row.Larg_CH }}</td>
+                                    <td>{{ row.Larg_ACD }}</td>
+                                    <td>{{ row.Larg_ACG }}</td>
+                                    <td>{{ row.NDP }}</td>
+                                    <td>{{ row.ARR }}</td>
+                                    <td>{{ row.FIS }}</td>
+                                    <td>{{ row.DEF }}</td>
+                                    <td>{{ row.Cls_NdP }}</td>
+                                    <td>{{ row.Cls_Arr }}</td>
+                                    <td>{{ row.Cls_Fis }}</td>
+                                    <td>{{ row.Cls_Def }}</td>
+                                    <td>{{ row.DAC }}</td>
+                                    <td>{{ row.IAC }}</td>
+                                    <td>{{ row.ISU }}</td>
+                                    
+                                </tr>
+                            {% endfor %}    
+                        </tbody>
+                    </table>
+                    
+                </div> 
+    </div>
+    <div class="outer-container">
+                {% if filename and filtre1 %}
+                    <form method="get" action="{% url 'download_filtered_df_as_excel' %}" class="download-form" id="download-form">
+                        <input type="text" id="filename1" name="filename1" placeholder="Nom du fichier à télécharger" required>
+                        <button type="submit" class="btn btn-primary">Télécharger</button>
+                    </form>
+                {% endif %}
+               
+    </div>
+
+        <div class="outer-container">
+            <h2>Échelle de kilométrage par catégorie ISU {{year}}</h2>
+        </div>
+        <div class="outer-container">
+                <!-- Content for the first container -->
+                    <div class="horizontal-scroll-container">
+                        
+                        {% if bar_plot_svg %}
+                            {{ bar_plot_svg|safe }}
+                        {% else %}
+                            <p class="filter-message">Sélectionnez un fichier pour avoir votre graphe</p>
+                        {% endif %}
+                        
+                    </div> 
+        </div>
+
+    
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner"></div>
+        <p class="loading-text">Chargement en cours...</p>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var provinceSelect = document.getElementById("province-select");
+            var roadSelect = document.getElementById("road-select");
+            var category = document.getElementById("category");
+            var provinceChanged = false;
+            var roadChanged = false;
+            var categoryChanged = false;
+
+            provinceSelect.addEventListener("input", function () {
+                provinceChanged = true;
+                trySubmitForm();
+            });
+
+            roadSelect.addEventListener("input", function () {
+                roadChanged = true;
+                trySubmitForm();
+            });
+
+            category.addEventListener("change", function () {
+                categoryChanged = true;
+                trySubmitForm();
+            });
+
+            function trySubmitForm() {
+                if (provinceChanged || ( roadChanged && categoryChanged)) {
+                    // Submit the form when all elements have been changed
+                    document.getElementById("form2").submit();
+                    document.getElementById('loadingOverlay').style.display = 'flex';
+                }
+            }
+        });
+        document.getElementById('form1').addEventListener('submit', function () {
+            // Show the loading overlay
+            document.getElementById('loadingOverlay').style.display = 'flex';
+        });
+        
+
+    </script>
+
+{% endblock %}

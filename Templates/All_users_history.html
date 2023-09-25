@@ -1,0 +1,42 @@
+{% extends 'Dashboard.html' %}
+
+{% block content %}
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+
+
+    <h1>Historique de téléchargement de tous les utilisateurs</h1>
+    <table>
+        <tr>
+            <th>Nom d'utilisateur</th>
+            <th>Nom du fichier</th>
+            <th>Téléchargé le</th>
+            <th>Statut de validation</th>
+        </tr>
+        {% for upload in upload_history %}
+            <tr>
+                <td>{{ upload.user.username }}</td>
+                <td>{{ upload.filename }}</td>
+                <td>{{ upload.uploaded_at }}</td>
+                <td>{{ upload.get_validation_status_display }}</td>
+            </tr>
+        {% empty %}
+            <tr>
+                <td colspan="4">Aucun historique de téléchargement disponible.</td>
+            </tr>
+        {% endfor %}
+    </table>
+
+    {% endblock %}

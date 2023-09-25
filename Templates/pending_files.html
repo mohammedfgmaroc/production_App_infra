@@ -1,0 +1,21 @@
+{% extends 'Dashboard.html' %}
+
+{% block content %}
+<h2>Fichiers en attente</h2>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Nom du fichier</th>
+                <th>Téléchargé le</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for file in pending_files %}
+                <tr>
+                    <td>{{ file.filename }}</td>
+                    <td>{{ file.uploaded_at }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

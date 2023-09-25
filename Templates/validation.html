@@ -1,0 +1,32 @@
+{% extends 'Dashboard.html' %}
+
+{% block content %}
+    <h2>Demandes de validation en attente</h2>
+    <table class="table table-bordered">
+      <thead>
+          <tr>
+              <th>Utilisateur</th>
+              <th>Nom du fichier</th>
+              <th>Téléchargé le</th>
+              <th>Actions</th>
+              <th>Voir le fichier</th> <!-- Ajout de cette colonne -->
+          </tr>
+      </thead>
+      <tbody>
+          {% for file in pending_files %}
+              <tr>
+                  <td>{{ file.user }}</td>
+                  <td>{{ file.filename }}</td>
+                  <td>{{ file.uploaded_at }}</td>
+                  <td>
+                      <a href="{% url 'approve_file' file.id %}" class="btn btn-success">Approuver</a>
+                      <a href="{% url 'reject_file' file.id %}" class="btn btn-danger">Rejeter</a>
+                  </td>
+                  <td>
+                    <a href="{% url 'view_uploaded_file' file.filename %}" target="_blank" class="btn btn-primary">Voir le fichier</a>
+                  </td>
+              </tr>
+          {% endfor %}
+      </tbody>
+  </table>
+{% endblock %}
